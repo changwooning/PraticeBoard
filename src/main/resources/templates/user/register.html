@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원가입</title>
+    <style>
+        body { background: #f6f7fb; font-family: 'Pretendard', sans-serif; }
+        .container { max-width: 400px; margin: 60px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 14px #ddd; padding: 32px; }
+        h2 { text-align: center; margin-bottom: 24px; }
+        input, label { display: block; width: 100%; margin-bottom: 14px; }
+        input { padding: 12px; border-radius: 8px; border: 1px solid #d0d0d0; }
+        .btn { width: 100%; background: #2864fa; color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 1.1em; cursor: pointer; }
+        .error { color: #ff3344; font-size: 0.97em; margin-bottom: 10px; }
+        .go-login { text-align: right; margin-top: 18px; font-size: 0.97em; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>회원가입</h2>
+    <form th:action="@{/user/register}" th:object="${registerRequest}" method="post">
+        <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
+        <label>아이디</label>
+        <input type="text" th:field="*{username}" placeholder="아이디 입력"/>
+        <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+
+        <label>비밀번호</label>
+        <input type="password" th:field="*{password}" placeholder="비밀번호 입력"/>
+        <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+
+        <label>이름</label>
+        <input type="text" th:field="*{name}" placeholder="이름 입력"/>
+        <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+        <label>이메일</label>
+        <input type="email" th:field="*{email}" placeholder="이메일 입력"/>
+        <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+        <button class="btn" type="submit">가입하기</button>
+    </form>
+    <div class="go-login">
+        이미 회원이신가요? <a th:href="@{/user/login}">로그인</a>
+    </div>
+</div>
+</body>
+</html>

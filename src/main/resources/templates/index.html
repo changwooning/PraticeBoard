@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PracticeBoard 메인</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0; padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(120deg,#2c3e50,#3498db 90%);
+            font-family: 'Pretendard', sans-serif;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .main-box {
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 6px 26px rgba(0,0,0,0.08);
+            max-width: 440px;
+            width: 94%;
+            padding: 42px 38px 38px 38px;
+            text-align: center;
+        }
+        .main-title {
+            font-size: 2.4rem;
+            letter-spacing: -1px;
+            color: #226bdf;
+            margin-bottom: 18px;
+            font-weight: 800;
+        }
+        .main-desc {
+            color: #444;
+            font-size: 1.1em;
+            margin-bottom: 36px;
+        }
+        .main-btn {
+            display: block;
+            width: 100%;
+            background: #2864fa;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 1.14em;
+            margin: 10px 0;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .main-btn:hover {
+            background: #184dbe;
+        }
+        .join-btn {
+            background: #3fd56a;
+            color: #fff;
+        }
+        .join-btn:hover {
+            background: #2fa250;
+        }
+        .board-btn {
+            background: #ffa953;
+            color: #fff;
+        }
+        .board-btn:hover {
+            background: #ea8818;
+        }
+        .main-footer {
+            color: #aaa;
+            font-size: 0.95em;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="main-box">
+    <div class="main-title">PracticeBoard</div>
+    <div class="main-desc">
+        심플 게시판 프로젝트<br>
+        <span style="color:#3479ee;">로그인</span> 또는 <span style="color:#34be7f;">회원가입</span> 후<br>
+        게시판을 이용해보세요!
+    </div>
+    <a th:href="@{/user/login}" class="main-btn">로그인</a>
+    <a th:href="@{/user/register}" class="main-btn join-btn">회원가입</a>
+    <a th:href="@{/board/list}" class="main-btn board-btn">게시판 둘러보기</a>
+    <div class="main-footer">
+        &copy; 2025 PracticeBoard
+    </div>
+</div>
+</body>
+</html>

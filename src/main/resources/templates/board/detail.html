@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>게시글 상세</title>
+    <style>
+        body { background: #f6f7fb; font-family: 'Pretendard', sans-serif; }
+        .container { max-width: 600px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 14px #ddd; padding: 34px; }
+        .field { margin-bottom: 16px; }
+        .label { color: #444; font-weight: 600; margin-bottom: 6px; }
+        .value { padding: 7px 0 11px 0; font-size: 1.08em; }
+        .btn-row { margin-top: 28px; }
+        .btn { background: #2864fa; color: #fff; border: none; border-radius: 7px; padding: 9px 17px; font-size: 1em; cursor: pointer; }
+        .btn-edit { background: #2e8a44; }
+        .btn-delete { background: #ff5555; }
+        .btn-back { background: #aaa; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${board.title}">글 제목</h2>
+    <div class="field">
+        <span class="label">작성자</span>
+        <span class="value" th:text="${board.username}">작성자</span>
+    </div>
+    <div class="field">
+        <span class="label">내용</span>
+        <div class="value" th:text="${board.content}">내용</div>
+    </div>
+    <div class="field">
+        <span class="label">조회수</span>
+        <span class="value" th:text="${board.viewCount}">0</span>
+    </div>
+    <div class="btn-row">
+        <a th:href="@{/board/list}" class="btn btn-back">목록</a>
+        <a th:href="@{/board/{id}/edit(id=${board.id})}" class="btn btn-edit"
+           th:if="${editable}">수정</a>
+        <form th:action="@{/board/{id}/delete(id=${board.id})}" method="post" style="display:inline;"
+              th:if="${editable}">
+            <button type="submit" class="btn btn-delete" onclick="return confirm('정말 삭제할까요?')">삭제</button>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>
