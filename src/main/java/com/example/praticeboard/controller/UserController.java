@@ -76,7 +76,7 @@ public class UserController {
     }
 
     // 로그아웃 : 세션 무효화를 통한 로그아웃
-    @GetMapping("logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate();
         return "redirect:/user/login?logout";

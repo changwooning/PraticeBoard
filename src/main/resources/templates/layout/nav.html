@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- 기본 버튼 스타일 -->
+<style>
+    .btn { background:#2864fa; color:#fff; border:none; border-radius:7px; padding:8px 14px; cursor:pointer; text-decoration:none; }
+    .btn-gray { background:#aaa; }
+    .btn-green { background:#2e8a44; }
+    .btn-red { background:#ff5555; }
+    .btn-row { display:flex; gap:8px; flex-wrap:wrap; }
+</style>
+
+<!-- 목록으로/홈/뒤로가기 -->
+<div th:fragment="basicNav(listHref)">
+    <div class="btn-row">
+        <a class="btn btn-gray" th:href="${listHref}">목록</a>
+        <a class="btn btn-gray" th:href="@{/}">홈</a>
+        <a class="btn btn-gray" href="javascript:history.back()">뒤로</a>
+    </div>
+</div>
+
+<!-- 목록 + 글쓰기 -->
+<div th:fragment="listWriteNav(listHref, writeHref)">
+    <div class="btn-row">
+        <a class="btn" th:href="${writeHref}">글쓰기</a>
+        <a class="btn btn-gray" th:href="${listHref}">목록</a>
+        <a class="btn btn-gray" th:href="@{/}">홈</a>
+    </div>
+</div>
+
+<!-- 로그인/로그아웃 -->
+<div th:fragment="authNav">
+    <div class="btn-row" style="margin-top:8px">
+        <a th:if="${session.username == null}" class="btn" th:href="@{/user/login}">로그인</a>
+        <a th:if="${session.username == null}" class="btn btn-green" th:href="@{/user/register}">회원가입</a>
+
+        <form th:if="${session.username != null}" th:action="@{/user/logout}" method="post">
+            <button class="btn btn-red" type="submit">로그아웃</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

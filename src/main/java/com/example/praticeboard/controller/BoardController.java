@@ -1,7 +1,9 @@
 package com.example.praticeboard.controller;
 
 import com.example.praticeboard.dto.BoardDto;
+import com.example.praticeboard.model.Comment;
 import com.example.praticeboard.service.BoardService;
+import com.example.praticeboard.service.CommentServiceJdbc;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -16,9 +18,11 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentServiceJdbc commentServiceJdbc;
 
-    public BoardController(BoardService boardService) {
+    public BoardController(BoardService boardService, CommentServiceJdbc commentServiceJdbc) {
         this.boardService = boardService;
+        this.commentServiceJdbc = commentServiceJdbc;
     }
 
     @GetMapping("/list")
@@ -30,11 +34,17 @@ public class BoardController {
 
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model, HttpSession session) {
-        BoardDto board = boardService.getBoard(id);
-        model.addAttribute("board", board);
+        BoardDto post = boardService.getBoard(id);
+        model.addAttribute("post", post);
+
+        List<Comment> comments = commentServiceJdbc.list(id);
+        model.addAttribute("comments", comments);
+
         String username = (String) session.getAttribute("username");
-        boolean editable = username != null && username.equals(board.getUsername());
+        boolean editable = username != null && username.equals(post.getUsername());
         model.addAttribute("editable", editable);
+
+        model.addAttribute("commentRequest", new com.example.praticeboard.dto.CommentCreateRequest());
         return "board/detail";
     }
 
@@ -91,7 +101,7 @@ public class BoardController {
         }
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public String delete(@PathVariable Long id, HttpSession session) {
         String username = (String) session.getAttribute("username");
         boardService.deleteBoard(id, username);

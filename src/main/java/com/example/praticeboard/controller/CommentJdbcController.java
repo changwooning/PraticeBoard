@@ -14,10 +14,15 @@ import java.util.List;
 public class CommentJdbcController {
 
     private final CommentServiceJdbc service;
-    public CommentJdbcController(CommentServiceJdbc service) { this.service = service; }
+
+    public CommentJdbcController(CommentServiceJdbc service) {
+        this.service = service;
+    }
 
     @GetMapping("/board/{boardId}")
-    public List<Comment> list(@PathVariable Long boardId) { return service.list(boardId); }
+    public List<Comment> list(@PathVariable Long boardId) {
+        return service.list(boardId);
+    }
 
     @PostMapping
     public ResponseEntity<Long> create(@RequestBody CommentCreateRequest req) {
@@ -25,10 +30,14 @@ public class CommentJdbcController {
     }
 
     @PatchMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody CommentUpdateRequest req) { service.update(id, req); }
+    public void update(@PathVariable Long id, @RequestBody CommentUpdateRequest req) {
+        service.update(id, req);
+    }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) { service.delete(id); }
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
+    }
 
 
 }

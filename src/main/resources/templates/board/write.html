@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>게시글 작성</title>
     <style>
-        body { background: #f6f7fb; font-family: 'Pretendard', sans-serif; }
-        .container { max-width: 500px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 14px #ddd; padding: 32px; }
-        h2 { margin-bottom: 22px; }
-        input, textarea, label { width: 100%; margin-bottom: 13px; }
-        input, textarea { padding: 10px; border-radius: 8px; border: 1px solid #d0d0d0; }
-        textarea { min-height: 120px; }
-        .btn { width: 100%; background: #2864fa; color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 1.1em; cursor: pointer; }
-        .error { color: #ff3344; font-size: 0.97em; margin-bottom: 10px; }
+        body { background:#f6f7fb; font-family:'Pretendard',sans-serif; }
+        .container { max-width:500px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 14px #ddd; padding:32px; }
+        h2 { margin-bottom:22px; }
+        label { display:block; margin:10px 0 6px; font-weight:600; color:#444; }
+        input, textarea { width:100%; padding:10px; border-radius:8px; border:1px solid #d0d0d0; }
+        textarea { min-height:120px; }
+        .btn-row { display:flex; gap:8px; margin-top:14px; }
+        .btn { background:#2864fa; color:#fff; border:none; border-radius:8px; padding:10px 16px; cursor:pointer; text-decoration:none; }
+        .btn-gray { background:#aaa; }
+        .error { color:#ff3344; font-size:0.97em; margin-top:6px; }
     </style>
 </head>
 <body>
@@ -25,7 +28,11 @@
         <textarea th:field="*{content}" placeholder="내용"></textarea>
         <div class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
 
-        <button class="btn" type="submit">등록</button>
+        <div class="btn-row">
+            <button class="btn" type="submit">등록</button>
+            <a class="btn btn-gray" th:href="@{/board/list}">목록</a>
+            <a class="btn btn-gray" href="javascript:history.back()">뒤로</a>
+        </div>
     </form>
 </div>
 </body>

@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>게시판 목록</title>
     <style>
-        body { background: #f6f7fb; font-family: 'Pretendard', sans-serif; }
-        .container { max-width: 720px; margin: 40px auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 14px #ddd; padding: 28px; }
-        h2 { margin-bottom: 16px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
-        th, td { padding: 13px; text-align: center; border-bottom: 1px solid #e0e0e0; }
-        tr:hover { background: #f4f9ff; }
-        .write-btn { float: right; background: #2864fa; color: #fff; padding: 9px 18px; border: none; border-radius: 8px; font-size: 1em; cursor: pointer; margin-bottom: 18px;}
-        .logout { float: left; }
+        body { background:#f6f7fb; font-family:'Pretendard',sans-serif; }
+        .container { max-width:720px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 14px #ddd; padding:28px; }
+        h2 { margin:0 0 16px 0; }
+        .actions { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+        .btn { background:#2864fa; color:#fff; padding:9px 16px; border:none; border-radius:8px; cursor:pointer; text-decoration:none; }
+        .btn-red { background:#ff5555; }
+        table { width:100%; border-collapse:collapse; }
+        th,td { padding:12px; text-align:center; border-bottom:1px solid #e0e0e0; }
+        tr:hover { background:#f4f9ff; }
     </style>
 </head>
 <body>
 <div class="container">
-    <div>
-        <form th:action="@{/user/logout}" method="get" class="logout" style="display:inline;">
-            <button type="submit" class="btn" style="background:#ff5555;">로그아웃</button>
+    <div class="actions">
+        <form th:action="@{/user/logout}" method="get">
+            <button type="submit" class="btn btn-red">로그아웃</button>
         </form>
-        <a th:href="@{/board/write}" class="write-btn">글쓰기</a>
+        <a th:href="@{/board/write}" class="btn">글쓰기</a>
     </div>
+
     <h2>게시판</h2>
+
     <table>
         <thead>
         <tr>
@@ -34,9 +38,7 @@
         <tbody>
         <tr th:each="board, stat : ${boards}">
             <td th:text="${stat.count}">1</td>
-            <td>
-                <a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}">글 제목</a>
-            </td>
+            <td><a th:href="@{/board/{id}(id=${board.id})}" th:text="${board.title}">글 제목</a></td>
             <td th:text="${board.username}">작성자</td>
             <td th:text="${board.viewCount}">0</td>
         </tr>

@@ -8,10 +8,15 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static javax.swing.text.html.parser.DTDConstants.ID;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Repository
 public class CommentJdbcRepository {
@@ -45,21 +50,24 @@ public class CommentJdbcRepository {
     }
 
     public Long insert(Long boardId, String author, String content) {
-        String sql = """
-        INSERT INTO comments(board_id, author, content, created_at, updated_at)
-        VALUES(:boardId, :author, :content, :createdAt, :updatedAt)
-    """;
+        String sql = "INSERT INTO comments(board_id, author, content) VALUES (?, ?, ?)";
 
-        MapSqlParameterSource p = new MapSqlParameterSource()
-                .addValue("boardId", boardId)
-                .addValue("author", author)
-                .addValue("content", content)
-                .addValue("createdAt", LocalDateTime.now())
-                .addValue("updatedAt", null);
+        KeyHolder kh = new GeneratedKeyHolder();
+        jdbcTemplate.update(con -> {
+            // 생성키 컬럼을 'id'로 한정
+            PreparedStatement ps = con.prepareStatement(sql, new String[]{"id"});
+            ps.setLong(1, boardId);
+            ps.setString(2, author);
+            ps.setString(3, content);
+            return ps;
+        }, kh);
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(sql, p, keyHolder, new String[]{"id"});
-        return keyHolder.getKey().longValue();  // ✅ H2에서도 자동 생성 키 회수
+        // H2는 보통 대문자 키("ID")로 반환하므로 getKeys()에서 우선 조회
+        Number idNum = (kh.getKeys() != null && kh.getKeys().get("ID") != null)
+                ? (Number) kh.getKeys().get("ID")
+                : kh.getKey(); // fallback (단일 키일 때만 존재)
+
+        return idNum.longValue();
     }
 
     public int updateContent(Long id, String content) {
